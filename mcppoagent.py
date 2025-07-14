@@ -13,9 +13,12 @@ from po_email_generator_tool import POEmailGenerator
 from restock_inventory_tool import RestockInventoryTool
 from report_file_tool import ReportFileTool
 from email_response_tool import EmailResponseGenerator
-
+import os
+from dotenv import load_dotenv
+# Load environment variables from .env file if present
+load_dotenv()
 # Initialize FastMCP server
-mcp = FastMCP("potool")
+mcp = FastMCP("potool",port=8080)
 
 # Initialize all tools (no longer inherit from BaseTool)
 doc_generator = DocumentGenerator()
@@ -365,7 +368,10 @@ async def send_response_email(
         urgent: Mark email as urgent/high priority (optional)
     """
     return email_response.send_response_email(subject, body, recipient_email, recipient_name, po_number, urgent)
+# print(mcp.list_tools())
 
 if __name__ == "__main__":
     # Initialize and run the server
-    mcp.run(transport='stdio')
+    
+    print("Starting FastMCP server...")
+    mcp.run(transport='streamable-http')
