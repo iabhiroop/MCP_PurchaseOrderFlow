@@ -17,8 +17,11 @@ import os
 from dotenv import load_dotenv
 # Load environment variables from .env file if present
 load_dotenv()
+# Print all environment variables (for debugging)
+# for key, value in os.environ.items():
+#     print(f"{key}={value}")
 # Initialize FastMCP server
-mcp = FastMCP("potool",port=8080)
+mcp = FastMCP("potool",port=8099)
 
 # Initialize all tools (no longer inherit from BaseTool)
 doc_generator = DocumentGenerator()
