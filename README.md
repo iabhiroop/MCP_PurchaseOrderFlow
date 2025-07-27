@@ -48,7 +48,7 @@ A comprehensive Model Context Protocol (MCP) server for automated purchase order
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd mcppoagent
+cd MCP_PurchaseOrderFlow
 
 # Create virtual environment (recommended)
 python -m venv .venv
@@ -71,9 +71,15 @@ pip install -e .
 Create a `.env` file in the project root:
 
 ```env
-# Gmail Configuration
-GMAIL_EMAIL=your-email@gmail.com
-GMAIL_APP_PASSWORD=your-app-specific-password
+# Gmail Configuration (Buyer/Company Email)
+GMAIL_EMAIL=buyer@company.com
+GMAIL_APP_PASSWORD=your-16-character-app-password
+email=buyer@company.com
+password=your-16-character-app-password
+
+# Supplier Email Configuration
+supemail=supplier@example.com
+suppassword=supplier-app-password
 
 # Google AI Configuration
 GOOGLE_API_KEY=your-google-ai-api-key
@@ -91,6 +97,30 @@ COMPANY_NAME=Your Company Name
 COMPANY_ADDRESS=Your Company Address
 COMPANY_EMAIL=company@example.com
 ```
+
+### Environment Variables Explained
+
+#### Email Configuration
+- **GMAIL_EMAIL / email**: Your company's buyer email address (Gmail account)
+- **GMAIL_APP_PASSWORD / password**: Gmail app-specific password (16-character code)
+- **supemail**: Supplier's email address for communications
+- **suppassword**: Supplier's email app-specific password (if needed)
+
+#### API Keys
+- **GOOGLE_API_KEY**: Your Google AI/Gemini API key for document processing
+
+#### How to Get Gmail App Password
+1. Enable 2-Factor Authentication on your Gmail account
+2. Go to Google Account settings → Security → 2-Step Verification
+3. Select "App passwords" at the bottom
+4. Generate a new app password for "Mail"
+5. Use the 16-character code (no spaces) as your app password
+
+#### How to Get Google AI API Key
+1. Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
+2. Sign in with your Google account
+3. Click "Create API Key"
+4. Copy the generated API key
 
 ### 4. External Dependencies
 
@@ -142,32 +172,6 @@ python mcppoagent.py
 export TRANSPORT_MODE=streamable-http
 python mcppoagent.py
 ```
-
-### Connecting to MCP Clients
-
-#### Claude Desktop Integration
-Add to your Claude Desktop configuration (`claude_desktop_config.json`):
-
-```json
-{
-  "mcpServers": {
-    "potool": {
-      "command": "python",
-      "args": ["path/to/mcppoagent/mcppoagent.py"],
-      "env": {
-        "GMAIL_EMAIL": "your-email@gmail.com",
-        "GMAIL_APP_PASSWORD": "your-app-password",
-        "GOOGLE_API_KEY": "your-api-key"
-      }
-    }
-  }
-}
-```
-
-#### Other MCP Clients
-For HTTP-based transports, connect to:
-- **SSE**: `http://localhost:8099/sse`
-- **StreamableHTTP**: `http://localhost:8099`
 
 ## 📖 Tool Documentation
 
